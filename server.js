@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const { db, addContact, getContacts, getCount, deleteContact, init } = require('./db');
+const { init, addContact, getContacts, getCount, deleteContact } = require('./db');
 
 init();
 
@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-
+// Create contact
 app.post('/contacts', async (req, res) => {
     try {
         const contact = await addContact(req.body);
@@ -18,10 +18,11 @@ app.post('/contacts', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+// Get contacts with pagination
 app.get('/contacts', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-
     try {
         const contacts = await getContacts(page, limit);
         const total = await getCount();
@@ -30,14 +31,14 @@ app.get('/contacts', async (req, res) => {
             total,
             page,
             limit,
-            totalPages: Math.ceil(total / limit)
+            totalPages: Math.ceil(total / limit),
         });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-
+// Delete contact
 app.delete('/contacts/:id', async (req, res) => {
     try {
         await deleteContact(req.params.id);
@@ -47,4 +48,4 @@ app.delete('/contacts/:id', async (req, res) => {
     }
 });
 
-app.listen(5000, () => console.log('Server listening on 5000'));
+app.listen(5000, () => console.log('Server running on http://localhost:5000'));
