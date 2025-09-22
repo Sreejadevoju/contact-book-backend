@@ -7,7 +7,7 @@ init();
 
 const app = express();
 app.use(cors({
-    origin: 'https://contact-book-frontend-86a3.vercel.app/', // allow your frontend
+    origin: 'https://contact-book-frontend-app.vercel.app/', // allow your frontend
     methods: ['GET', 'POST', 'DELETE', 'PUT']
 }));
 app.use(bodyParser.json());
