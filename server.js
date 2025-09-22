@@ -6,7 +6,10 @@ const { init, addContact, getContacts, getCount, deleteContact } = require('./db
 init();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'https://contact-book-frontend-ehikqbf3k-sreejas-projects-042f1ed1.vercel.app/', // allow your frontend
+    methods: ['GET', 'POST', 'DELETE', 'PUT']
+}));
 app.use(bodyParser.json());
 
 // Create contact
